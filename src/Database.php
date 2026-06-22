@@ -2,15 +2,15 @@
 
 class Database 
 {
-    private static ?PD0 $connection = null;
+    private static ?PDO $connection = null;
 
-    public static function connect():PD0
+    public static function connect():PDO
     {
         if(self::$connection === null) {
             $databasePath = __DIR__ . '/../database/database.sqlite';
-            self::$connection = new PD0('sqlite:' . $databasePath);
+            self::$connection = new PDO('sqlite:' . $databasePath);
 
-            self::$connection->setAttribute(PD0::ATTR_ERRMODE, PD0::ERRMODE_EXCEPTION);
+            self::$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             self::createTables();
         }
 
