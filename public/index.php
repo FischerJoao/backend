@@ -2,8 +2,19 @@
 
 session_start();
 
+$requestOrigin = $_SERVER["HTTP_ORIGIN"] ?? "";
+$allowedOrigin = "http://localhost:5173";
+
+if (
+    $requestOrigin !== ""
+    &&
+    preg_match('#^https?://(localhost|127\.0\.0\.1)(:\d+)?$#', $requestOrigin)
+) {
+    $allowedOrigin = $requestOrigin;
+}
+
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Origin: http://localhost:5173");
+header("Access-Control-Allow-Origin: " . $allowedOrigin);
 header("Access-Control-Allow-Credentials: true");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type");
