@@ -10,6 +10,31 @@ class AuthService
         $this->userRepository = $userRepository;
     }
 
+    private function validatePassword(
+        string $password
+    ): void {
+        $hasMinLength =
+            strlen($password) >= 5;
+
+        $hasLetter =
+            preg_match('/[A-Za-z]/', $password);
+
+        $hasNumber =
+            preg_match('/\d/', $password);
+
+        if (
+            !$hasMinLength
+            ||
+            !$hasLetter
+            ||
+            !$hasNumber
+        ) {
+            throw new Exception(
+                "A senha deve ter no mínimo 5 caracteres, com pelo menos 1 letra e 1 número"
+            );
+        }
+    }
+
     public function register(
         string $name,
         string $email,
@@ -25,6 +50,10 @@ class AuthService
                 "Email já cadastrado"
             );
         }
+
+        $this->validatePassword(
+            $password
+        );
 
         $passwordHash = password_hash(
             $password,
