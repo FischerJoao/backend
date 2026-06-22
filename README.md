@@ -61,6 +61,38 @@ Se quiser trocar a porta:
 php -S localhost:8001 -t public
 ```
 
+## Rodando com Docker
+
+Este projeto possui um `Dockerfile` próprio.
+
+### Subir só o backend
+
+```bash
+docker build -t vitafor-backend .
+docker run --rm -p 8000:8000 vitafor-backend
+```
+
+API disponível em:
+
+```text
+http://localhost:8000
+```
+
+### Subir junto com o frontend
+
+Na raiz `vitafor-test`, existe um `docker-compose.yml`.
+
+Para subir tudo:
+
+```bash
+docker compose up --build
+```
+
+## O que você precisa para Docker
+
+- Docker
+- Docker Compose
+
 ## Banco de dados
 
 O projeto usa SQLite.
@@ -258,5 +290,8 @@ Você pode usar esse arquivo em editores/extensões que suportam requests HTTP, 
 ## Observações importantes
 
 - o banco está limpo
-
 - autenticação por sessão exige que o frontend envie `credentials: "include"`
+- o arquivo `database/database.sqlite` é criado automaticamente se não existir
+- as tabelas também são criadas automaticamente na inicialização da conexão
+- existe `Dockerfile` próprio para rodar o backend isoladamente
+- existe `docker-compose.yml` na raiz para rodar frontend e backend juntos
